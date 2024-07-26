@@ -7,83 +7,46 @@ functions to download pep csv from link
 link needs to change based on current year
 rewrite file name
 write file to inputs/PEP_data
+
+# Example usage
+downloader = GetPepData()
+downloader.get_allstates_agesex_pep()
+downloader.get_allstates_charagegroups_pep()
+downloader.get_agesex_pep()
+downloader.get_charagegroups_pep()
 """
 
+class GetPepData:
 
-def get_allstates_agesex_pep():
-    current_date = datetime.today()
-    year = str(current_date.year - 1)
-    filepath = "services"
-    # filepath = os.join.path("inputs", "PEP_data")
-    os.makedirs(filepath, exist_ok=True)
+    def __init__(self):
+        self.year = str(datetime.today().year - 1)
+        self.filepath = "services"
+        # filepath = os.join.path("inputs", "PEP_data")
+        os.makedirs(self.filepath, exist_ok=True)
 
-    url = f"https://www2.census.gov/programs-surveys/popest/datasets/2020-{year}/counties/asrh/cc-est{year}-agesex-all.csv"
+    def get_data(self, url, filename):
+        output_file = os.path.join(self.filepath, filename)
+        response = requests.get(url)
+        response.raise_for_status()
+        with open(output_file, "wb") as file:
+            file.write(response.content)
+        print(f"File saved to {output_file}")
 
-    output_file = os.path.join(filepath, f"PEP{year}agesex_allstates.csv")
-
-    response = requests.get(url)
-    response.raise_for_status()
-
-    with open(output_file, "wb") as file:
-        file.write(response.content)
-    print(f"File saved to {output_file}")
-
-def get_allstates_charagegroups_pep():
-    current_date = datetime.today() 
-    year = str(current_date.year - 1)
-    filepath = "services"
-    # filepath = os.join.path("inputs", "PEP_data")
-    os.makedirs(filepath, exist_ok=True)
-
-    url = f"https://www2.census.gov/programs-surveys/popest/datasets/2020-{year}/counties/asrh/cc-est{year}-alldata.csv"
-
-    output_file = os.path.join(filepath, f"PEP{year}_agesex_allstates.csv")
-
-    response = requests.get(url)
-    response.raise_for_status()
-
-    with open(output_file, "wb") as file:
-        file.write(response.content)
-    print(f"File saved to {output_file}")
-
-def get_agesex_pep():
-    current_date = datetime.today() 
-    year = str(current_date.year - 1)
-    filepath = "services"
-    # filepath = os.join.path("inputs", "PEP_data")
-    os.makedirs(filepath, exist_ok=True)
-
-    url = f"https://www2.census.gov/programs-surveys/popest/datasets/2020-{year}/counties/asrh/cc-est{year}-agesex-22.csv"
-
-    output_file = os.path.join(filepath, f"PEP{year}charagegroups.csv")
-
-    response = requests.get(url)
-    response.raise_for_status()
-
-    with open(output_file, "wb") as file:
-        file.write(response.content)
-    print(f"File saved to {output_file}")
-
-def get_charagegroups_pep():
-    current_date = datetime.today()
-    year = str(current_date.year - 1)
-    filepath = "services"
-    # filepath = os.join.path("inputs", "PEP_data")
-    os.makedirs(filepath, exist_ok=True)
-
-    url = f"https://www2.census.gov/programs-surveys/popest/datasets/2020-{year}/counties/asrh/cc-est{year}-alldata-22.csv"
-
-    output_file = os.path.join(filepath, f"PEP{year}_agesex.csv")
-
-    response = requests.get(url)
-    response.raise_for_status()
-
-    with open(output_file, "wb") as file:
-        file.write(response.content)
-    print(f"File saved to {output_file}")
+    def get_allstates_agesex_pep(self):
+        url = f"https://www2.census.gov/programs-surveys/popest/datasets/2020-{self.year}/counties/asrh/cc-est{self.year}-agesex-all.csv"
+        self.get_data(url, f"PEP{self.year}_agesex_alldata.csv")
 
 
-get_allstates_charagegroups_pep()
-get_allstates_agesex_pep()
-get_charagegroups_pep()
-get_agesex_pep()
+    def get_allstates_charagegroups_pep(self):
+        url = f"https://www2.census.gov/programs-surveys/popest/datasets/2020-{self.year}/counties/asrh/cc-est{self.year}-alldata.csv"
+        self.get_data(url, f"PEP{self.year}charagegroups_allstates.csv")
+
+    def get_agesex_pep(self):
+        url = f"https://www2.census.gov/programs-surveys/popest/datasets/2020-{self.year}/counties/asrh/cc-est{self.year}-agesex-22.csv"
+        self.get_data(url, f"PEP{self.year}_agesex.csv")
+
+
+    def get_charagegroups_pep(self):
+        url = f"https://www2.census.gov/programs-surveys/popest/datasets/2020-{self.year}/counties/asrh/cc-est{self.year}-alldata-22.csv"
+        self.get_data(url, f"PEP{self.year}charagegroups.csv")
+
