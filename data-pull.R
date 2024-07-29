@@ -875,11 +875,7 @@ allparishesRaw <- allparishesRaw %>% filter(race %in% c("TOT", "NHWA", "NHBA", "
 popunder18co <- read_csv("inputs/PEP_data/PEP2023_agesex.csv") #for popunder18 measure
 popunder18co <- popunder18co %>% 
   filter(COUNTY %in% c("071","051","075","087","089","093","095","103")) %>% select(CTYNAME, YEAR, AGE18PLUS_TOT) %>% mutate(place = CTYNAME,
-                                                                                 date = case_when(YEAR == 1 ~ "4/1/2020 population estimates base",
-                                                                                                  YEAR == 2 ~ "7/1/2020 population estimate",
-                                                                                                  YEAR == 3 ~ "7/1/2021 population estimate",
-                                                                                                  YEAR == 4 ~ "7/1/2022 population estimate",
-                                                                                                  YEAR == 5 ~ "7/1/2023 population estimate"),
+                                                                                 date = sapply(YEAR, create_date, start_year = start_year),
                                                                                  age = "18 years and over",
                                                                                  race = "Total",
                                                                                  raceSimple = "Total",
