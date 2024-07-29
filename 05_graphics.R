@@ -34,7 +34,7 @@ themeDC_horizontal() +
 AAwhthispGraphic <- AAWhiteHispan %>%
   select(est2000, population, raceSimple, race.fac) %>%
   gather(-raceSimple,-race.fac, key=variable, value =val) %>%
-  mutate(description = ifelse(variable == "est2000", "2000", yearPEP.char)) %>%
+  mutate(description = ifelse(variable == "est2000", "2000", YEAR_PEP.char)) %>%
   ggplot(aes(race.fac, val, fill=description)) +
   geom_bar(stat="identity",
            position = position_dodge(),
@@ -66,10 +66,10 @@ ParishDemoforGraphic <- ParishDemo %>%
                                                        "St. John the Baptist", "St. Tammany", "Metro", "United States"))) %>%
   gather(key = variable, value = value, contains("pct"), contains("2000")) %>%
   mutate(description  = NA,
-         description = ifelse(grepl("pct",variable), yearPEP, description),     #if variable contains 'pct'
+         description = ifelse(grepl("pct",variable), YEAR_PEP, description),     #if variable contains 'pct'
          description = ifelse(grepl("2000", variable), 2000, description)) %>%     #if variable contains '2000'
   mutate(description.fac = factor(.$description, levels = c( "2000",
-                                                             yearPEP.char)))%>%
+                                                             YEAR_PEP.char)))%>%
   mutate(race = NA,
          race = ifelse(grepl("white", variable),"White", race),
          race = ifelse(grepl("black", variable),"Black", race),
@@ -131,8 +131,8 @@ HispanicPopforGraphic  <- HispanicPop %>%
   mutate(PlaceName.fac = factor(.$PlaceName,levels = c("Orleans", "Jefferson", "St. Tammany", "Plaquemines",
                                                        "St. Bernard","St. Charles", "St. James", "St. John the Baptist"))) %>%
   gather(-PlaceName,-PlaceName.fac,key = variable, value = value) %>%
-  mutate(description = ifelse(variable == "est2000", "2000", yearPEP.char)) %>%
-mutate(description.fac = factor(.$description, levels = c(yearPEP.char, "2000")))
+  mutate(description = ifelse(variable == "est2000", "2000", YEAR_PEP.char)) %>%
+mutate(description.fac = factor(.$description, levels = c(YEAR_PEP.char, "2000")))
 
 HispanicPopGraphic <- HispanicPopforGraphic %>%
   ggplot(aes(PlaceName.fac, value, fill=description.fac, label = comma(value))) +
@@ -441,7 +441,7 @@ popunder18forGraphic <- popunder18 %>%
   mutate(PlaceName.fac = factor(.$PlaceName,levels = c("Orleans", "Jefferson","St. Tammany","Metro"))) %>%
   pivot_longer(cols = c(under18, est2000), names_to = "variable", values_to = "val") %>%
   #gather(PlaceName,-PlaceName.fac, key=variable, value =val) %>%
-  mutate(description = ifelse(variable == "est2000", "2000", yearPEP.char))
+  mutate(description = ifelse(variable == "est2000", "2000", YEAR_PEP.char))
 
 popunder18Graphic <- popunder18forGraphic %>%
   ggplot(aes(PlaceName.fac, val, fill=description, label = comma(val))) +

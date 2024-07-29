@@ -10,7 +10,7 @@ CENSUS_KEY <- Sys.getenv("TEST_CENSUS_KEY")
 ## input: census api variable names, human-readable names, and vintage
 ## output: dataframe in same format as Who Lives data tables excel sheet
 
-wholivesdatapull <- function(variables, names = variables, year = 2022, censusname = "acs/acs1") {
+wholivesdatapull <- function(variables, names = variables, year = YEAR, censusname = "acs/acs1") {
   censuskey <- CENSUS_KEY
   parishes <- getCensus(name = censusname, vintage = year, key = censuskey, vars = variables, region = "county:071,051,103,093", regionin = "state:22") ## pull parish data
   parishes$state <- NULL # state column pulled automatically & needs to be deleted
@@ -265,6 +265,7 @@ dodgedBar <- function(data,
                       yscale = c(0, .45),
                       pct = TRUE, # used when formatting pct vals vs dollar vals
                       comparisonyear = "2000",
+                      # FIXME
                       year = "2022",
                       digits = 0,
                       lab_pos = position_dodge(width = .7)) { # for rounding, specifically for forbor
@@ -281,7 +282,7 @@ dodgedBar <- function(data,
     mutate(place.fac = factor(.$placenames, levels = c("Orleans", "Jefferson", "St. Tammany", "Metro", "U.S."))) %>% # vars of type "factor" allow you to control order
     select(one_of("census2000", "sf2004", "sf1999", "Ownerpct2000"), !!stattograph, placenames, place.fac, significant) %>% # one_of() chooses correct comparison vals/!! is the second part or the quo() tool
     gather(-placenames, -place.fac, -significant, key = variable, value = value) %>%
-    mutate(description = as.factor(ifelse(variable == "census2000" | variable == "sf2004" | variable == "sf1999" | variable == "Ownerpct2000", comparisonyear, year))) %>% # creates legend info
+    mutate(description = as.factor(ifelse(variable == "census2000" | variable == "sf2004" | variable == "sf1999" | variable == "Ownerpct2000", comparisonyear, YEAR))) %>% # creates legend info
     mutate(valp = case_when(
       value == 0 ~ "  ",
       value < .01 & significant == "no" ~ "<1%*",

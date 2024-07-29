@@ -2,8 +2,8 @@
 #library(dplyr)
 
 #Year to be changed manually in 02_variables_SQL
-yearPEP <- data_frame("year" = yearPEP)
-yearPEP <- yearPEP %>%
+YEAR_PEP <- data_frame("year" = YEAR_PEP)
+YEAR_PEP <- YEAR_PEP %>%
    select(year) %>%
   pull()
 #for 2nd update later in year -- aligns with ACS year
@@ -437,7 +437,7 @@ getvalue.Hispgrowth.metro.2020 <-HISPpopM %>%  ### PEP update
   pull()
 
 getvalue.Hispgrowth.metro.current <-HISPpopM %>%  ### PEP update
-  filter(year ==yearPEP) %>%
+  filter(year == YEAR_PEP) %>%
   mutate(POP = as.numeric(POP)) %>%
   select(POP)%>%
   pull()

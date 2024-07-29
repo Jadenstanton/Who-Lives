@@ -7,7 +7,6 @@ output:
 ---
 
 ```{r, include=FALSE}
-
 ## Configure outputs for easy cutting-and-pasting
 # In YAML header, specify output: md_document
 # For Wordpress, specify variant: markdown_phpextra+backtick_code_blocks
@@ -15,60 +14,57 @@ output:
 ## Configure URL paths for embedded charts and fig and table formatting for easy cutting-and-pasting
 
 # At present, charts called in this Rmd will be saved to a local subdirectory \wp-graphics\uploads.
-# The contents of this subdirectory will have to be uploaded manually in Wordpress. 
+# The contents of this subdirectory will have to be uploaded manually in Wordpress.
 
-# base.dir, base.url, and fig.path control where the figures will be saved locally and how the links will be written in markdown. The links should match where the files are uploaded to WP. 
+# base.dir, base.url, and fig.path control where the figures will be saved locally and how the links will be written in markdown. The links should match where the files are uploaded to WP.
 # base.dir and base.url fall under knit options; fig.path falls under chunk options
 
 base.dir <- "wp-graphics"
 base.url <- "https://s3.amazonaws.com/files.datacenterresearch/who-lives"
 
-#Set date path manually
+# Set date path manually
 # fig.path <- "uploads/2024/07/"
 
-#Set date path with auto generated month and year
-fig.path <- paste0("/",
-                   format(Sys.Date(), format="%Y"),"/")
+# Set date path with auto generated month and year
+fig.path <- paste0(
+  "/",
+  format(Sys.Date(), format = "%Y"), "/"
+)
 
 knitr::opts_knit$set(base.dir = base.dir, base.url = base.url)
 
-knitr::opts_chunk$set(fig.width=5, fig.height=5,  # use fig.width and fig.height to globally set figure sizes.
-               fig.path = fig.path,
-               message = F,
-               warning = F,
-               error =  F) 
-options(knitr.table.format = 'markdown') # Specify that kable will create md-formatted tables. 
-
+knitr::opts_chunk$set(
+  fig.width = 5, fig.height = 5, # use fig.width and fig.height to globally set figure sizes.
+  fig.path = fig.path,
+  message = F,
+  warning = F,
+  error = F
+)
+options(knitr.table.format = "markdown") # Specify that kable will create md-formatted tables.
 ```
 
 ```{r, include=FALSE}
-
-# Tidyverse is not necessary (but an expedient for generating working examples). 
+# Tidyverse is not necessary (but an expedient for generating working examples).
 library(tidyverse)
 library(scales)
 library(extrafont)
-# Load helper functions to control CSS styles. See below for examples of how to call the functions. 
+# Load helper functions to control CSS styles. See below for examples of how to call the functions.
 library(here)
 source(here("css_helper.R"))
-knitr::opts_chunk$set(fig.width=5, fig.height=5, warning = FALSE)  # use fig.width and fig.height to globally set figure sizes.
-              
-options(knitr.table.format = 'markdown') # Specify that kable will create md-formatted tables. 
+knitr::opts_chunk$set(fig.width = 5, fig.height = 5, warning = FALSE) # use fig.width and fig.height to globally set figure sizes.
 
-
-
-
+options(knitr.table.format = "markdown") # Specify that kable will create md-formatted tables.
 ```
 
 ```{r setup, include=FALSE}
-
 loadfonts() # Necessary to load custom fonts, not sure if necessary if I load fonts from another package.
 knitr::opts_chunk$set(echo = FALSE)
-#knitr::opts_knit$set(root.dir = '/Users/username/path_to_project')
+# knitr::opts_knit$set(root.dir = '/Users/username/path_to_project')
 ```
 
 
 ```{r, echo=FALSE, include=FALSE, results = FALSE}
-# Load required scripts in order. 
+# Load required scripts in order.
 # Note: here() uses the relative path to the same directory.
 
 source(here("01_libraries.R"))
@@ -99,26 +95,27 @@ source(here("inline.R"))
 ```
 ```{r}
 # For Asap font
-#font_add_google("Asap")
-#showtext_auto() # Turns on showtext fonts
+# font_add_google("Asap")
+# showtext_auto() # Turns on showtext fonts
 ```
 
 
 
 ```{r, echo=FALSE}
 makeCSS_highlight(
-"This brief examines the 2023 demographic data released by the U.S. Census Bureau covering race, ethnicity, and age.  This brief also covers 2022 estimates from the Census Bureau's annual American Community Survey (ACS) on a range of important topics such as educational attainment, poverty, and housing costs.   In 2023, the official definition of the New Orleans metro area changed to exclude St. Tammany. Later this year, when the Census Bureau releases 2023 ACS data, we'll publish data according to the new 7-parish metro area definition.") 
+  "This brief examines the 2023 demographic data released by the U.S. Census Bureau covering race, ethnicity, and age.  This brief also covers 2022 estimates from the Census Bureau's annual American Community Survey (ACS) on a range of important topics such as educational attainment, poverty, and housing costs.   In 2023, the official definition of the New Orleans metro area changed to exclude St. Tammany. Later this year, when the Census Bureau releases 2023 ACS data, we'll publish data according to the new 7-parish metro area definition."
+)
 ```
 
 
 
 
-The U.S. Census Bureau estimates that `r comma(metropop.current)` residents were living in metro New Orleans as of July `r yearPEP`, a `r round.off((-1*pctincrease.metro.current.2020)*100)` percent decrease from April 2020.[^1] The metro area now has `r round.off((metropop.current / 1337726)*100)` percent of its 2000 population of 1,337,726. In this brief, we examine demographic data released by the U.S. Census Bureau and identify important changes in metro area parishes since 2000 (or the best benchmark available).
+The U.S. Census Bureau estimates that `r comma(metropop.current)` residents were living in metro New Orleans as of July `r YEAR_PEP`, a `r round.off((-1*pctincrease.metro.current.2020)*100)` percent decrease from April 2020.[^1] The metro area now has `r round.off((metropop.current / 1337726)*100)` percent of its 2000 population of 1,337,726. In this brief, we examine demographic data released by the U.S. Census Bureau and identify important changes in metro area parishes since 2000 (or the best benchmark available).
 
 
 ## Race/Ethnicity
 
-According to the U.S. Census Bureau’s `r yearPEP` population estimates, there are now `r comma(getvalue.AA.no.2000-getvalue.AA.no.current)` fewer Black residents living in New Orleans (Orleans Parish) compared to 2000, and there are `r comma(getvalue.white.no.2000 - getvalue.white.no.current)` fewer White residents as well as `r comma(getvalue.Hispan.no.current - getvalue.Hispan.no.2000)` more Hispanic residents.[^2]
+According to the U.S. Census Bureau’s `r YEAR_PEP` population estimates, there are now `r comma(getvalue.AA.no.2000-getvalue.AA.no.current)` fewer Black residents living in New Orleans (Orleans Parish) compared to 2000, and there are `r comma(getvalue.white.no.2000 - getvalue.white.no.current)` fewer White residents as well as `r comma(getvalue.Hispan.no.current - getvalue.Hispan.no.2000)` more Hispanic residents.[^2]
 
 ```{r AAWhiteHispan, fig.align='center', fig.width=7, fig.height=5, echo=FALSE, warning=FALSE, message=FALSE}
 AAwhthispGraphic
@@ -126,7 +123,7 @@ AAwhthispGraphic
 
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 and Population Estimates 2023."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 and Population Estimates 2023."
 )
 ```
 
@@ -134,44 +131,44 @@ makeCSS_source(
 
 ```{r, echo=FALSE}
 makeCSS_highlight(
-"### What is Orleans Parish? 
+  "### What is Orleans Parish?
 
 Orleans Parish is the city of New Orleans. New Orleans and Orleans Parish are interchangeable. Their boundaries are the same, and they contain the same population. "
 )
 ```
 
-In Orleans Parish, the share of the `r yearPEP` population that is Black — while lower than in 2000 when it was `r round.off((getvalue.AApct.no.2000)*100)` percent — continues to represent the majority of city residents at `r round.off((getvalue.AApct.no.current)*100)` percent. The share of Hispanic residents in the city increased from `r round.off((getvalue.Hispanpct.no.2000)*100)` percent in 2000 to `r round.off((getvalue.Hispanpct.no.current)*100)` percent in `r yearPEP`; the share of Asian residents increased from `r round.off((getvalue.Asianpct.no.2000)*100)` percent to `r round.off((getvalue.Asianpct.no.current)*100)` percent; and the share of White residents increased from `r round.off((getvalue.whitepct.no.2000)*100)` percent to `r round.off((getvalue.whitepct.no.current)*100)` percent. Meanwhile, Hispanic, Asian, and Black populations increased as a share of the total population in Jefferson, St. Bernard, St. Charles, St. John the Baptist, and St. Tammany parishes. In fact, the number and share of Hispanics have increased in all eight parishes in the metro area since 2000.
+In Orleans Parish, the share of the `r YEAR_PEP` population that is Black — while lower than in 2000 when it was `r round.off((getvalue.AApct.no.2000)*100)` percent — continues to represent the majority of city residents at `r round.off((getvalue.AApct.no.current)*100)` percent. The share of Hispanic residents in the city increased from `r round.off((getvalue.Hispanpct.no.2000)*100)` percent in 2000 to `r round.off((getvalue.Hispanpct.no.current)*100)` percent in `r YEAR_PEP`; the share of Asian residents increased from `r round.off((getvalue.Asianpct.no.2000)*100)` percent to `r round.off((getvalue.Asianpct.no.current)*100)` percent; and the share of White residents increased from `r round.off((getvalue.whitepct.no.2000)*100)` percent to `r round.off((getvalue.whitepct.no.current)*100)` percent. Meanwhile, Hispanic, Asian, and Black populations increased as a share of the total population in Jefferson, St. Bernard, St. Charles, St. John the Baptist, and St. Tammany parishes. In fact, the number and share of Hispanics have increased in all eight parishes in the metro area since 2000.
 
 ```{r demoallparish, fig.align='center', fig.width=10, fig.height=16, echo=FALSE, warning=FALSE, message=FALSE}
 chart.demo.allparishes
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 and Population Estimates 2023."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 and Population Estimates 2023."
 )
 ```
 
-Between 2000 and `r yearPEP`, the number of Hispanics in Jefferson Parish increased by `r comma(getvalue.hispan.jeff.current-getvalue.hispan.jeff.2000)` reaching over `r round.off((getvalue.Hispanpct.jeff.current)*100)` percent of the total parish population. Orleans Parish and St. Tammany Parish gained `r comma(getvalue.Hispan.no.current - getvalue.Hispan.no.2000)` and `r comma(getvalue.hispan.tam.current - getvalue.hispan.tam.2000)` Hispanics, respectively, such that the Hispanic share of the population grew to `r round.off((getvalue.Hispanpct.no.current)*100)` percent in both of these parishes.
+Between 2000 and `r YEAR_PEP`, the number of Hispanics in Jefferson Parish increased by `r comma(getvalue.hispan.jeff.current-getvalue.hispan.jeff.2000)` reaching over `r round.off((getvalue.Hispanpct.jeff.current)*100)` percent of the total parish population. Orleans Parish and St. Tammany Parish gained `r comma(getvalue.Hispan.no.current - getvalue.Hispan.no.2000)` and `r comma(getvalue.hispan.tam.current - getvalue.hispan.tam.2000)` Hispanics, respectively, such that the Hispanic share of the population grew to `r round.off((getvalue.Hispanpct.no.current)*100)` percent in both of these parishes.
 
-As of July `r yearPEP`, there were `r comma(getvalue.Hispan.metro.current)` Hispanics in the metro area, representing `r round.off((getvalue.Hispanpct.metro.current)*100)` percent of the metro population. This is up from 2000 when there were `r comma(getvalue.hispanpop.metro.2000)`, representing `r round.off((getvalue.Hispanpct.metro.2000)*100)` percent of the metro population. Despite these recent gains, the Hispanic share of the population in metro area parishes is below the average for the United States, which has grown from `r round.off((getvalue.Hispanpct.us.2000)*100)` percent to `r round.off((getvalue.Hispanpct.us.current)*100)` percent of the total U.S. population over these `r yearPEP-2000` years.
+As of July `r YEAR_PEP`, there were `r comma(getvalue.Hispan.metro.current)` Hispanics in the metro area, representing `r round.off((getvalue.Hispanpct.metro.current)*100)` percent of the metro population. This is up from 2000 when there were `r comma(getvalue.hispanpop.metro.2000)`, representing `r round.off((getvalue.Hispanpct.metro.2000)*100)` percent of the metro population. Despite these recent gains, the Hispanic share of the population in metro area parishes is below the average for the United States, which has grown from `r round.off((getvalue.Hispanpct.us.2000)*100)` percent to `r round.off((getvalue.Hispanpct.us.current)*100)` percent of the total U.S. population over these `r YEAR_PEP-2000` years.
 
 ```{r hispanpop, fig.align='center', fig.width=7, fig.height=6, echo=FALSE, warning=FALSE, message=FALSE}
 HispanicPopGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 and Population Estimates 2023."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 and Population Estimates 2023."
 )
 ```
 
-The number of Hispanics in the New Orleans metro has grown every year since Hurricane Katrina. From 2010 to 2020, the Hispanic population accounted for the majority of the metro area’s growth, increasing by `r comma(getvalue.hispangrowthCOUNT.metro.2010.2020)`, while the total population increased by `r comma(getvalue.growthCOUNT.metro.2010.2020)`.  Since 2020, the overall population declined but the Hispanic population continued to grow.  From 2020 to `r yearPEP`, the metro area gained  another `r comma(getvalue.hispangrowthCOUNT.metro.2020.current)` Hispanic residents while losing a total of `r comma(-1*(getvalue.growthCOUNT.metro.2020.current))` residents.
+The number of Hispanics in the New Orleans metro has grown every year since Hurricane Katrina. From 2010 to 2020, the Hispanic population accounted for the majority of the metro area’s growth, increasing by `r comma(getvalue.hispangrowthCOUNT.metro.2010.2020)`, while the total population increased by `r comma(getvalue.growthCOUNT.metro.2010.2020)`.  Since 2020, the overall population declined but the Hispanic population continued to grow.  From 2020 to `r YEAR_PEP`, the metro area gained  another `r comma(getvalue.hispangrowthCOUNT.metro.2020.current)` Hispanic residents while losing a total of `r comma(-1*(getvalue.growthCOUNT.metro.2020.current))` residents.
 
 ```{r hispanpopyear, fig.align='center', fig.width=10, fig.height=6, echo=FALSE, warning=FALSE, message=FALSE}
 chart.HispanpopYears.allparishes
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000, 2010, and Population Estimates 2020 and 2023."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000, 2010, and Population Estimates 2020 and 2023."
 )
 ```
 
@@ -184,11 +181,11 @@ Not to be ignored, the Mexican population represents `r round.off((getvalue.Mex.
 
 
 ```{r hispan2018, fig.align='center', fig.width=7, fig.height=5, echo=FALSE, warning=FALSE, message=FALSE}
-chart.hispan2018.allparishes 
+chart.hispan2018.allparishes
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = Difference between indicated measure and the U.S. is not significant at 95% confidence interval.   
+  "∗ = Difference between indicated measure and the U.S. is not significant at 95% confidence interval.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from American Community Survey 2022."
 )
@@ -196,7 +193,7 @@ makeCSS_source(
 
 
 ## Population by age and household types
-The progression of the baby boomers through the age groups, along with falling birth rates, has brought massive changes to the metro — and indeed the whole country — with many more changes yet to come.[^4] Looking at the total population in the metro by five-year age groups for 2000 and `r yearPEP`, the baby boomers are like a demographic tidal wave. According to the American Community Survey, the median age of the metro has risen to `r getvalue.medage.current` in `r year` from 34.8 in 2000.
+The progression of the baby boomers through the age groups, along with falling birth rates, has brought massive changes to the metro — and indeed the whole country — with many more changes yet to come.[^4] Looking at the total population in the metro by five-year age groups for 2000 and `r YEAR_PEP`, the baby boomers are like a demographic tidal wave. According to the American Community Survey, the median age of the metro has risen to `r getvalue.medage.current` in `r year` from 34.8 in 2000.
 
 
 ```{r age2000, fig.align='center', fig.width=10, fig.height=5, echo=FALSE}
@@ -204,7 +201,7 @@ chart.agepop2000.allparishes
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000."
 )
 ```
 
@@ -213,7 +210,7 @@ chart.agepopCurrent.allparishes
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Population Estimates 2023."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Population Estimates 2023."
 )
 ```
 
@@ -221,11 +218,11 @@ Meanwhile, the share of households with children is shrinking while the share of
 
 
 ```{r hwc, fig.align='center', fig.width=7, fig.height=5, echo=FALSE}
-hwcGraphic 
+hwcGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
 ```
 As households with children have declined, the share of single-person households has grown in the metro and nationwide. The metro area share of individuals living alone grew from `r round.off((getvalue.sing.2000)*100)` percent in 2000 to `r round.off((getvalue.sing.2018)*100)` percent in `r year` — similar to the trend for Jefferson Parish where the share of householders living alone grew from `r round.off(( getvalue.singJeff.2000)*100)` percent to `r round.off(( getvalue.singJeff.2018)*100)` percent. The increase was larger in Orleans Parish, which jumped from `r round.off((getvalue.singNO.2000)*100)` to `r round.off((getvalue.singNO.2018)*100)` percent.
@@ -236,11 +233,11 @@ singGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
 ```
 
-While the metro has regained much of the post-Katrina population losses, youth population is substantially lower than pre-Katrina levels. The metro had `r comma(getvalue.under18.metro.2000)` children under 18 years in 2000 and only `r comma(getvalue.under18.metro.current)` in `r yearPEP`. Much of this loss was driven by Orleans Parish, where the population under 18 has declined to `r comma(getvalue.under18.no.current)` from `r comma(getvalue.under18.no.2000)`. The under 18 population is now `r round.off((getvalue.pct.under18.metro.current)*100)` percent of the metro population, down from 27 percent in 2000.
+While the metro has regained much of the post-Katrina population losses, youth population is substantially lower than pre-Katrina levels. The metro had `r comma(getvalue.under18.metro.2000)` children under 18 years in 2000 and only `r comma(getvalue.under18.metro.current)` in `r YEAR_PEP`. Much of this loss was driven by Orleans Parish, where the population under 18 has declined to `r comma(getvalue.under18.no.current)` from `r comma(getvalue.under18.no.2000)`. The under 18 population is now `r round.off((getvalue.pct.under18.metro.current)*100)` percent of the metro population, down from 27 percent in 2000.
 
 
 ```{r popunder18, fig.align='center', fig.width=7, fig.height=5, echo=FALSE, warning=FALSE, message=FALSE}
@@ -248,13 +245,13 @@ popunder18Graphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 and Population Estimates 2023."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 and Population Estimates 2023."
 )
 ```
 
 ```{r, echo=FALSE}
 makeCSS_highlight(
-"### Where is data for Plaquemines, St. Bernard, St. James, St. Charles, and St. John the Baptist?
+  "### Where is data for Plaquemines, St. Bernard, St. James, St. Charles, and St. John the Baptist?
 
 Although race/ethnicity and age data is available for all eight parishes in metro New Orleans, most other demographic data (such as educational attainment, poverty, and homeownership) is available for only the three most populous parishes of Jefferson, Orleans, and St. Tammany, as well as the metro."
 )
@@ -270,7 +267,7 @@ bachGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
 ```
 
@@ -282,8 +279,8 @@ EduAtt.hist_chart
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Notes**: The number of Asians in New Orleans during the timespan of this chart is too small to produce reliable statistics. 1980 data for White educational attainment is inclusive of Hispanic people (due to data source limitations).    
-∗ = Change in time is not significant for Hispanic for 2000-2010 or 2010-2022.    
+  "**Notes**: The number of Asians in New Orleans during the timespan of this chart is too small to produce reliable statistics. 1980 data for White educational attainment is inclusive of Hispanic people (due to data source limitations).
+∗ = Change in time is not significant for Hispanic for 2000-2010 or 2010-2022.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from 1980, 1990, 2000 SF3, and 2010 and American Community Survey 2022."
 )
@@ -294,9 +291,9 @@ bach.raceGeos_chart
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = In Jefferson Parish, the difference between Black and Hispanic is not statistically significant.   
-∗ = In St. Tammany Parish, the difference between White and Asian, Black and Hispanic, Black and Asian, and Hispanic and Asian is not statistically significant.  
-∗ = In the New Orleans Metro area, the difference between White and Asian and Black and Hispanic is not statistically significant.  
+  "∗ = In Jefferson Parish, the difference between Black and Hispanic is not statistically significant.
+∗ = In St. Tammany Parish, the difference between White and Asian, Black and Hispanic, Black and Asian, and Hispanic and Asian is not statistically significant.
+∗ = In the New Orleans Metro area, the difference between White and Asian and Black and Hispanic is not statistically significant.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from American Community Survey 2022."
 )
@@ -309,7 +306,7 @@ hsGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
 ```
 
@@ -322,7 +319,7 @@ medhhGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = Difference between 1999 and 2022 is not significant at 95% confidence interval.   
+  "∗ = Difference between 1999 and 2022 is not significant at 95% confidence interval.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
@@ -335,9 +332,9 @@ medhh.hist_chart
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Notes**: The number of Asians in New Orleans during the timespan of this chart is too small to produce reliable statistics.   
-∗ = Change in time is not significant for Black for 2010-2022.   
-∗ = Change in time is not significant for any race for 1999-2010.   
+  "**Notes**: The number of Asians in New Orleans during the timespan of this chart is too small to produce reliable statistics.
+∗ = Change in time is not significant for Black for 2010-2022.
+∗ = Change in time is not significant for any race for 1999-2010.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from 1980, 1990, 2000 SF3, and 2010 and American Community Survey 2022."
 )
@@ -350,10 +347,10 @@ medhh.raceGeos_chart
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = In Orleans Parish, the difference between Hispanic and Asian is not statistically significant.  
-∗ = In Jefferson Parish, the difference between White and Asian, Black and Asian, and Hispanic and Asian is not statistically significant.   
-∗ = In St. Tammany Parish, the difference between White and Asian, White and Hispanic, and Black and Hispanic is not statistically significant.   
-∗ = In the New Orleans Metro Area, the difference between Hispanic and Asian is not statistically significant.   
+  "∗ = In Orleans Parish, the difference between Hispanic and Asian is not statistically significant.
+∗ = In Jefferson Parish, the difference between White and Asian, Black and Asian, and Hispanic and Asian is not statistically significant.
+∗ = In St. Tammany Parish, the difference between White and Asian, White and Hispanic, and Black and Hispanic is not statistically significant.
+∗ = In the New Orleans Metro Area, the difference between Hispanic and Asian is not statistically significant.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from American Community Survey 2022."
 )
@@ -365,7 +362,7 @@ An increasingly common way to access the internet is through a smartphone or som
 
 ```{r, echo=FALSE}
 makeCSS_highlight(
-"### What is the Digital Divide?
+  "### What is the Digital Divide?
 
 Inequalities between individuals, households, businesses, or geographic areas with regard to access, use of, or impact of information and communication technologies."
 )
@@ -377,7 +374,7 @@ chart.inta.allparishes
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = Difference between indicated measure and the U.S. is not significant at 95% confidence interval.
+  "∗ = Difference between indicated measure and the U.S. is not significant at 95% confidence interval.
 
 **Notes**: Access with no subscription refers to those who receive free internet from their housing environment (e.g. college dorms).
 
@@ -395,7 +392,7 @@ povGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = Difference between 1999 and 2022 is not significant at 95% confidence interval.
+  "∗ = Difference between 1999 and 2022 is not significant at 95% confidence interval.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
@@ -403,7 +400,7 @@ makeCSS_source(
 
 ```{r, echo=FALSE}
 makeCSS_highlight(
-"### How is poverty measured? 
+  "### How is poverty measured?
 
 The Census still uses the federal definition for poverty that was first created in 1964. The original calculations were based on studies from the early 1960s that indicated that family food costs were about one-third of a family’s budget. But housing costs have risen much faster than food costs since 1964. Also, the current calculations don’t count non-cash government aid, like Child Tax Credits or housing subsidies, as income. And they aren’t adjusted for differences in costs of living in different parts of the country. Given these limitations, the Census began publishing a Supplemental Poverty Measure that incorporates up-to-date data on regional housing costs as well as several kinds of government aid.  According to the Census, the 2020 Supplemental Poverty Rate for the U.S. was 9.1 percent. The Official Poverty Rate that same year was 11.4 percent.[^8]  The Census Bureau does not calculate Supplemental Poverty Rates for geographies smaller than the nation as a whole.[^9]"
 )
@@ -416,10 +413,10 @@ totalPov.hist_chart
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Notes**: The number of Asians in New Orleans during the timespan of this chart is too small to produce reliable statistics. 1980 data for White poverty rates is inclusive of Hispanic people (due to data source limitations).   
-∗ = Change in time is not significant for any race for 2000-2010.   
-∗ = Change in time is not significant for Black and Hispanic for 2010-2022.   
-∗ = Change in time is not significant for Hispanic for 2000-2022.   
+  "**Notes**: The number of Asians in New Orleans during the timespan of this chart is too small to produce reliable statistics. 1980 data for White poverty rates is inclusive of Hispanic people (due to data source limitations).
+∗ = Change in time is not significant for any race for 2000-2010.
+∗ = Change in time is not significant for Black and Hispanic for 2010-2022.
+∗ = Change in time is not significant for Hispanic for 2000-2022.
 
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from 1980, 1990, 2000 SF3, and 2010 and American Community Survey 2022."
@@ -431,10 +428,10 @@ pov.raceGeos_chart
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = In Orleans Parish, the difference between White and Asian is not statistically significant.   
-∗ = In Jefferson Parish, the difference between White and Asian, Black and Asian, Black and Hispanic, and Hispanic and Asian is not statistically significant.   
-∗ = In St. Tammany Parish, the difference between White and Black and Black and Hispanic is not statistically significant.   
-∗ = In the New Orleans Metro Area, the difference between White and Asian is not statistically significant.   
+  "∗ = In Orleans Parish, the difference between White and Asian is not statistically significant.
+∗ = In Jefferson Parish, the difference between White and Asian, Black and Asian, Black and Hispanic, and Hispanic and Asian is not statistically significant.
+∗ = In St. Tammany Parish, the difference between White and Black and Black and Hispanic is not statistically significant.
+∗ = In the New Orleans Metro Area, the difference between White and Asian is not statistically significant.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from American Community Survey 2022."
 )
@@ -447,7 +444,7 @@ childpovGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = Difference between 1999 and 2022 is not significant at 95% confidence interval.
+  "∗ = Difference between 1999 and 2022 is not significant at 95% confidence interval.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
@@ -460,9 +457,9 @@ childPov.hist_chart
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Notes**: The number of Asians in New Orleans during the timespan of this chart is too small to produce reliable statistics. 1980 data for White child poverty is inclusive of Hispanic people (due to data source limitations).   
-∗ = Change in time is not significant for any race for 2000-2022 or 2010-2022.   
-∗ = Change in time is not significant for White or Hispanic for 2000-2010.   
+  "**Notes**: The number of Asians in New Orleans during the timespan of this chart is too small to produce reliable statistics. 1980 data for White child poverty is inclusive of Hispanic people (due to data source limitations).
+∗ = Change in time is not significant for any race for 2000-2022 or 2010-2022.
+∗ = Change in time is not significant for White or Hispanic for 2000-2010.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from 1980, 1990, 2000 SF3, and 2010 and American Community Survey 2022."
 )
@@ -475,11 +472,11 @@ childpov.raceGeos_chart
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = In Orleans Parish, the difference between White and Asian is not statistically significant.   
-∗ = In Jefferson Parish, the difference between White and Asian, Black and Hispanic, and Hispanic and Asian is not statistically significant.   
-∗ = In St. Tammany Parish, the difference between White and Black, White and Asian, Black and Hispanic is not statistically significant.   
-∗ = In the New Orleans Metro Area, the difference between White and Asian is not statistically significant.   
-∗ = In United States, the difference between White and Asian is not statistically significant.   
+  "∗ = In Orleans Parish, the difference between White and Asian is not statistically significant.
+∗ = In Jefferson Parish, the difference between White and Asian, Black and Hispanic, and Hispanic and Asian is not statistically significant.
+∗ = In St. Tammany Parish, the difference between White and Black, White and Asian, Black and Hispanic is not statistically significant.
+∗ = In the New Orleans Metro Area, the difference between White and Asian is not statistically significant.
+∗ = In United States, the difference between White and Asian is not statistically significant.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
@@ -493,7 +490,7 @@ vehGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = Difference between 2000 and 2022 is not significant at 95% confidence interval.
+  "∗ = Difference between 2000 and 2022 is not significant at 95% confidence interval.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
@@ -509,7 +506,7 @@ forborGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
 ```
 
@@ -517,11 +514,11 @@ Like the foreign-born population, a rising share of the population who moved int
 
 
 ```{r mob, fig.align='center', fig.width=10, fig.height=6, echo=FALSE}
-chart.mob.allparishes 
+chart.mob.allparishes
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Notes**: Share not included in the bar chart represents the population who lived in the same house one year ago (non-movers). For people living in the same house as a year ago, the difference between 2004 and 2022 is not significant at the 95% confidence interval for Orleans Parish. It is significant for all other geographies
+  "**Notes**: Share not included in the bar chart represents the population who lived in the same house one year ago (non-movers). For people living in the same house as a year ago, the difference between 2004 and 2022 is not significant at the 95% confidence interval for Orleans Parish. It is significant for all other geographies
 
 **Notes**: 2004 data is not available for St. Tammany Parish and metro New Orleans.
 
@@ -541,7 +538,7 @@ hoGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = Difference between 2000 and 2022 is not significant at 95% confidence interval.
+  "∗ = Difference between 2000 and 2022 is not significant at 95% confidence interval.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF1 and American Community Survey 2022."
 )
@@ -554,9 +551,9 @@ homeownership.hist_chart
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Notes**: The number of Asians in New Orleans during the timespan of this chart is too small to produce reliable statistics. 1970 and 1980 data for White homeownership is inclusive of Hispanic people (due to data source limitations).   
-∗ = Change in time is not significant for Black for 2010-2022.   
-∗ = Change in time is not significant for Hispanic,any race for 2000-2022.   
+  "**Notes**: The number of Asians in New Orleans during the timespan of this chart is too small to produce reliable statistics. 1970 and 1980 data for White homeownership is inclusive of Hispanic people (due to data source limitations).
+∗ = Change in time is not significant for Black for 2010-2022.
+∗ = Change in time is not significant for Hispanic,any race for 2000-2022.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from 1980, 1990, 2000 SF1, and 2010 and American Community Survey 2022."
 )
@@ -569,9 +566,9 @@ ho.raceGeos_chart
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = In Orleans Parish, the difference between White and Asian, Black and Hispanic, and Black and Asian is not statistically significant.   
-∗ = In Jefferson Parish, the difference between White and Asian is not statistically significant.   
-∗ = In St. Tammany Parish, the difference between White and Asian, White and Hispanic, Black and Hispanic, Black and Asian, and Hispanic and Asian is not statistically significant.   
+  "∗ = In Orleans Parish, the difference between White and Asian, Black and Hispanic, and Black and Asian is not statistically significant.
+∗ = In Jefferson Parish, the difference between White and Asian is not statistically significant.
+∗ = In St. Tammany Parish, the difference between White and Asian, White and Hispanic, Black and Hispanic, Black and Asian, and Hispanic and Asian is not statistically significant.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from American Community Survey 2022."
 )
@@ -583,7 +580,7 @@ honomoGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
+  "**Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
 ```
 
@@ -598,7 +595,7 @@ rentburGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Notes**: 2004 data is not available for St. Tammany Parish and metro New Orleans.
+  "**Notes**: 2004 data is not available for St. Tammany Parish and metro New Orleans.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from American Community Survey 2004 and 2022."
 )
@@ -611,7 +608,7 @@ hoburGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Notes**: 2004 data is not available for St. Tammany Parish and metro New Orleans.
+  "**Notes**: 2004 data is not available for St. Tammany Parish and metro New Orleans.
 
 ∗ = Difference between 2004 and 2022 is not significant at 95% confidence interval.
 
@@ -628,7 +625,7 @@ medrentGraphic
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"**Notes**: 2004 data is not available for St. Tammany Parish
+  "**Notes**: 2004 data is not available for St. Tammany Parish
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from American Community Survey 2004 and 2022."
 )
@@ -645,7 +642,7 @@ chart.yrbuilt.allparishes
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = Difference between indicated measure and the U.S. is not significant at 95% confidence interval.
+  "∗ = Difference between indicated measure and the U.S. is not significant at 95% confidence interval.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from American Community Survey 2022."
 )
@@ -656,11 +653,11 @@ A metro region is partially defined by the commuting patterns of its residents. 
 Nationwide and across the New Orleans metro, there has been a sizable increase in people working from home since the COVID-19 pandemic struck. In New Orleans, the share working at home rose from `r round.off((getvalue.wfh.no.2000)*100)` percent in 2000 to `r round.off((getvalue.wfh.no.current)*100)` percent in 2022, while the share using public transportation declined sharply from `r round.off((getvalue.publictransit.no.2000)*100)` percent in 2000 to `r round.off((getvalue.publictransit.no.2018)*100)` percent in 2022. Working from home is somewhat less common in Jefferson (`r round.off((getvalue.wfh.jeff.current)*100)` percent) than in New Orleans or across the nation (18 percent).
 
 ```{r commute, fig.align='center', fig.width=10, fig.height=6,echo=FALSE, warning=FALSE, message=FALSE}
-chart.commute.allparishes 
+chart.commute.allparishes
 ```
 ```{r, echo=FALSE}
 makeCSS_source(
-"∗ = Difference between 2000 and 2022 is not significant at 95% confidence interval.
+  "∗ = Difference between 2000 and 2022 is not significant at 95% confidence interval.
 
 **Source**: The Data Center analysis of U.S. Census Bureau data from Census 2000 SF3 and American Community Survey 2022."
 )
