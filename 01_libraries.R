@@ -1,4 +1,4 @@
-library(censusapi) 
+library(censusapi)
 library(tidyverse)
 library(dplyr)
 library(extrafont)
@@ -9,24 +9,47 @@ library(here)
 library(knitr)
 library(readxl)
 library(xfun)
-
-#library(xlsx)
-
-#load("inputs/allparishesRawx.RData")
-
 library(AzureAuth) ## to connect with credentials
 library(AzureStor) ## to access the stored data
 
-## install azure cli: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli
-## sign in to Azure using your AAD un/pw in the terminal/commandline: az login 
-## get token in terminal/commandline: az account get-access-token --resource https://datacenterdc2datalake.blob.core.windows.net/
+readRenviron(".env.test")
+CLIENT_SECRET <- Sys.getenv("TEST_CLIENT_SECRET")
 
-### define your token 
-token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik1HTHFqOThWTkxvWGFGZnBKQ0JwZ0I0SmFLcyIsImtpZCI6Ik1HTHFqOThWTkxvWGFGZnBKQ0JwZ0I0SmFLcyJ9.eyJhdWQiOiJodHRwczovL2RhdGFjZW50ZXJkYzJkYXRhbGFrZS5ibG9iLmNvcmUud2luZG93cy5uZXQvIiwiaXNzIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvNzQ5YzFmYmEtMmMyOS00YTBmLTg3ZGEtODc3NjQ3YmJiZDg2LyIsImlhdCI6MTcyMDIxMjA5NywibmJmIjoxNzIwMjEyMDk3LCJleHAiOjE3MjAyMTcxNzgsImFjciI6IjEiLCJhaW8iOiJBVlFBcS84WEFBQUFBUExIekVTU3hSV05BM1FTZG4rd0ZhY01kZDB0NVdYQkROZjFsRHJwUVF5S253Q2lhTDRKalYwM0tFblNxcitPZDBPNlBzSjlRbjg1c3pnV0pnRDVtK1puYnJXNUR2ZExkQ2VCMU4rd2V0VT0iLCJhbXIiOlsicHdkIiwibWZhIl0sImFwcGlkIjoiMDRiMDc3OTUtOGRkYi00NjFhLWJiZWUtMDJmOWUxYmY3YjQ2IiwiYXBwaWRhY3IiOiIwIiwiZmFtaWx5X25hbWUiOiJUb21saW4iLCJnaXZlbl9uYW1lIjoiSGFsZWlnaCIsImdyb3VwcyI6WyI3NzJjNDcxYy1lNWQzLTRlYjQtYTZhMS1kZjlkZWY5NjFmZWMiLCJhZDA5NDhhYy1hZjY4LTQ0OTUtOGNjZC00MTRjM2NjZmYzNzMiXSwiaWR0eXAiOiJ1c2VyIiwiaXBhZGRyIjoiMjYwMDo4ODA3OjQwNGY6NTYwMDpkMTU4OjExNzA6ZDU2Zjo0MmJmIiwibmFtZSI6IkhhbGVpZ2ggVG9tbGluIiwib2lkIjoiMTg5ODEyNTMtNDE2NC00OTIwLWExYjktMTliMDY3MTgwNWYxIiwicHVpZCI6IjEwMDMyMDAyMUVFMDM2NDciLCJyaCI6IjAuQVNrQXVoLWNkQ2tzRDBxSDJvZDJSN3U5aG9HbUJ1VFU4NmhDa0xiQ3NDbEpldkVwQUg4LiIsInNjcCI6InVzZXJfaW1wZXJzb25hdGlvbiIsInN1YiI6Ino5TXFwRHlnUTFvcmFFZ0d0dFlRN3p5djRzMVU5amNwdFB3NS1CSjFmT2ciLCJ0aWQiOiI3NDljMWZiYS0yYzI5LTRhMGYtODdkYS04Nzc2NDdiYmJkODYiLCJ1bmlxdWVfbmFtZSI6IkhhbGVpZ2h0QGRhdGFjZW50ZXJyZXNlYXJjaC5vcmciLCJ1cG4iOiJIYWxlaWdodEBkYXRhY2VudGVycmVzZWFyY2gub3JnIiwidXRpIjoiSlRtUDUxV0J1RS1zWDJEWmtnakNBQSIsInZlciI6IjEuMCIsInhtc19pZHJlbCI6IjEgMjYifQ.CtsTUMP6jtiJ0pnqk1Fc89wslaUnYWKpahNfbQlNQg3Pagx0xkFmTopXChi4QL_oY9ZooqYBZxkSwOq0sbIEcxpGpEzVN9PveykL24DDEqUVosT4KTIQyMmqcNuq4kZwmBlBvndllyE8W163qtz_-QRiRl7gVuFr3S_1tOcBE3uyOxQu7srn7CiLhDx5z-pFVOIrhZylBsq9MBpSEgvC4pw31Q5qA2JrB9idEQjJdYnQgOZDdrEh0ebRn7SeUdGQPO6OtoNrl47xOVaJM1F7qFcOtTISnMrdIorc7Hqq1j_U9xL1C4n5iFjFd4p5ulQ768pyWORsw-2-JCaXaw-F8Q"
-ad_endp_tok2 <- storage_endpoint("https://datacenterdc2datalake.blob.core.windows.net/", token=token) ## again, the rsource/URL
+# library(xlsx)
 
-## Connections to some most-used containers.
-cont_proj <- storage_container(ad_endp_tok2, "project") 
-#df <- storage_read_csv(cont_proj, "who_lives/2022/inputs/WhoLives_longer.csv") %>% select(-1) #make sure this is updated within datalake - querying_WhoLives_factconsolidated
+# load("inputs/allparishesRawx.RData")
 
-#to write back to azure, use storage_write_csv(df, cont_proj, "who_lives/2022/outputs/file_name")
+
+# Define Azure AD tenant ID, client ID, and client secret
+tenant_id <- "749c1fba-2c29-4a0f-87da-877647bbbd86"
+client_id <- "e51bd1ed-87d9-46bb-a94a-9f2c34dd4d7b"
+client_secret <- CLIENT_SECRET
+resource <- "https://datacenterdc2datalake.blob.core.windows.net/"
+
+# Authenticate using the service principal
+token <- get_azure_token(
+  resource = resource,
+  tenant = tenant_id,
+  app = client_id,
+  password = client_secret
+)
+
+# Create storage endpoint
+ad_endp_tok2 <- storage_endpoint(resource, token = token)
+
+# Connect to the storage container
+cont_proj <- storage_container(ad_endp_tok2, "project")
+
+tryCatch(
+  {
+    # Example: Read a CSV file from the storage container
+    # df <- storage_read_csv(cont_proj, "who_lives/2022/inputs/WhoLives_longer.csv") %>% select(-1) ((make sure this is updated within datalake - querying_WhoLives_factconsolidated))
+    # Example: Write a CSV file back to the storage container
+    # storage_write_csv(df, cont_proj, "who_lives/2022/outputs/file_name")
+  },
+  error = function(e) {
+    # Log the error and stop the process
+    message("An error occurred: ", e$message)
+    stop("Stopping script due to error")
+  }
+)

@@ -9,10 +9,10 @@ cpi99 <- 1.71
 # Change all global variables to be in all caps
 
 YEAR <- 2022
-YEAR_PEP <- 2023
+YEAR_PEP <- strtoi(c(format(Sys.Date(), "%Y"))) - 1
 
 YEAR.char <- c("2022")
-YEAR_PEP.char <- c("2023")
+YEAR_PEP.char <- toString(strtoi(c(format(Sys.Date(), "%Y"))) - 1)
 
 
 windowsFonts("Asap" = windowsFont("Asap"))
