@@ -16,6 +16,8 @@ downloader.get_agesex_pep()
 downloader.get_charagegroups_pep()
 """
 
+# TODO: Make file path accurate and not the services folder
+
 class GetPepData:
 
     def __init__(self):
@@ -50,3 +52,9 @@ class GetPepData:
         url = f"https://www2.census.gov/programs-surveys/popest/datasets/2020-{self.year}/counties/asrh/cc-est{self.year}-alldata-22.csv"
         self.get_data(url, f"PEP{self.year}charagegroups.csv")
 
+if __name__ == "__main__":
+    downloader = GetPepData()
+    downloader.get_allstates_agesex_pep()
+    downloader.get_allstates_charagegroups_pep()
+    downloader.get_agesex_pep()
+    downloader.get_charagegroups_pep()
