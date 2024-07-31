@@ -9,6 +9,7 @@ library(here)
 library(knitr)
 library(readxl)
 library(xfun)
+library(rmarkdown)
 library(AzureAuth) ## to connect with credentials
 library(AzureStor) ## to access the stored data
 

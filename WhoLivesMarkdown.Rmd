@@ -3,7 +3,8 @@
 output: 
   md_document:
     variant: markdown_phpextra+backtick_code_blocks
-
+params:
+  fig_path: "default/path/"
 ---
 
 ```{r, include=FALSE}
@@ -25,17 +26,17 @@ base.url <- "https://s3.amazonaws.com/files.datacenterresearch/who-lives"
 # Set date path manually
 # fig.path <- "uploads/2024/07/"
 
-# Set date path with auto generated month and year
-fig.path <- paste0(
-  "/",
-  format(Sys.Date(), format = "%Y"), "/"
-)
+# # Set date path with auto generated month and year
+# fig.path <- paste0(
+#   "/",
+#   format(Sys.Date(), format = "%Y"), "/"
+# )
 
 knitr::opts_knit$set(base.dir = base.dir, base.url = base.url)
 
 knitr::opts_chunk$set(
   fig.width = 5, fig.height = 5, # use fig.width and fig.height to globally set figure sizes.
-  fig.path = fig.path,
+  fig.path = params$fig_path,
   message = F,
   warning = F,
   error = F
@@ -62,37 +63,6 @@ knitr::opts_chunk$set(echo = FALSE)
 # knitr::opts_knit$set(root.dir = '/Users/username/path_to_project')
 ```
 
-
-```{r, echo=FALSE, include=FALSE, results = FALSE}
-# Load required scripts in order.
-# Note: here() uses the relative path to the same directory.
-
-source(here("01_libraries.R"))
-```
-```{r, echo=FALSE, include=FALSE, results = FALSE}
-source(here("css_helper.R"))
-```
-```{r, echo=FALSE, include=FALSE, results = FALSE}
-source(here("02_variables.R"))
-```
-```{r, echo=FALSE, include=FALSE, results = FALSE}
-source(here("03_functions.R"))
-```
-```{r, echo=FALSE, include=FALSE, results = FALSE}
-source(here("02_variables.R"))
-```
-```{r, echo=FALSE, include=FALSE, results = FALSE}
-source(here("03_functions.R"))
-```
-```{r, echo=FALSE, include=FALSE, results = FALSE}
-source(here("04_analysis.R"))
-```
-```{r, echo=FALSE, include=FALSE, results = FALSE}
-source(here("05_graphics.R"))
-```
-```{r, echo=FALSE, include=FALSE, results = FALSE}
-source(here("inline.R"))
-```
 ```{r}
 # For Asap font
 # font_add_google("Asap")
