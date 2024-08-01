@@ -42,10 +42,12 @@ create_date <- function(year, start_year) {
     if (year == 1) {
         return(paste0("4/1/", start_year, " population estimates base"))
     } else {
-        return(paste0("7/1/", start_year + year - 1, " population estimate"))
+        return(paste0("7/1/", start_year + year - 2, " population estimate"))
     }
 }
 start_year <- 2020
+current_year <- as.numeric(format(Sys.Date(), "%Y"))
+years_since_start <- 1:(current_year - start_year + 1)
 
 # warehouse who lives datapull - make sure WhoLives.csv in datalake is updated, and run the datalake-connection.R first
 

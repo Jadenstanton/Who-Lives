@@ -133,13 +133,7 @@ allparishesRaw <- allparishesRaw %>%
             AGEGRP == 17 ~ "80 to 84",
             AGEGRP == 18 ~ "85 plus"
         ),
-        date = case_when(
-            YEAR == 1 ~ "4/1/2020 population estimates base",
-            YEAR == 2 ~ "7/1/2020 population estimate",
-            YEAR == 3 ~ "7/1/2021 population estimate",
-            YEAR == 4 ~ "7/1/2022 population estimate",
-            YEAR == 5 ~ "7/1/2023 population estimate"
-        ),
+        date = sapply(years_since_start, create_date, start_year = start_year),
         sex = case_when(
             sex == "POP" | sex == "Total" ~ "Total",
             sex == "MALE" ~ "Male",
@@ -183,7 +177,7 @@ popunder18co <- popunder18co %>%
     select(CTYNAME, YEAR, AGE18PLUS_TOT) %>%
     mutate(
         place = CTYNAME,
-        date = sapply(YEAR, create_date, start_year = start_year),
+        date = sapply(years_since_start, create_date, start_year = start_year),
         age = "18 years and over",
         race = "Total",
         raceSimple = "Total",
@@ -232,13 +226,7 @@ allstates_pep <- allstates_pep %>%
             AGEGRP == 17 ~ "80 to 84",
             AGEGRP == 18 ~ "85 plus"
         ),
-        date = case_when(
-            YEAR == 1 ~ "4/1/2020 population estimates base",
-            YEAR == 2 ~ "7/1/2020 population estimate",
-            YEAR == 3 ~ "7/1/2021 population estimate",
-            YEAR == 4 ~ "7/1/2022 population estimate",
-            YEAR == 5 ~ "7/1/2023 population estimate"
-        ),
+        date = sapply(years_since_start, create_date, start_year = start_year),
         sex = case_when(
             sex == "POP" | sex == "Total" ~ "Total",
             sex == "MALE" ~ "Male",
@@ -281,13 +269,7 @@ popunder18US <- popunder18US %>%
     select(CTYNAME, YEAR, AGE18PLUS_TOT) %>%
     mutate(
         place = CTYNAME,
-        date = case_when(
-            YEAR == 1 ~ "4/1/2020 population estimates base",
-            YEAR == 2 ~ "7/1/2020 population estimate",
-            YEAR == 3 ~ "7/1/2021 population estimate",
-            YEAR == 4 ~ "7/1/2022 population estimate",
-            YEAR == 5 ~ "7/1/2023 population estimate"
-        ),
+        date = sapply(years_since_start, create_date, start_year = start_year),
         age = "18 years and over",
         race = "Total",
         raceSimple = "Total",
@@ -329,49 +311,49 @@ allparishesRaw2020 <- rbind(allstates_pep, allparishesRaw) %>%
     )
 save(allparishesRaw2020, file = "inputs/allparishesRaw2020.RData")
 
-allparishesRaw2021 <- rbind(allstates_pep, allparishesRaw) %>%
-    filter(date == "7/1/2021 population estimate") %>%
-    mutate(
-        PlaceName = case_when(
-            place == "Orleans Parish" ~ "Orleans",
-            place == "Jefferson Parish" ~ "Jefferson",
-            place == "Plaquemines Parish" ~ "Plaquemines",
-            place == "St. Bernard Parish" ~ "St. Bernard",
-            place == "St. Charles Parish" ~ "St. Charles",
-            place == "St. James Parish" ~ "St. James",
-            place == "St. John the Baptist Parish" ~ "St. John the Baptist",
-            place == "St. Tammany Parish" ~ "St. Tammany",
-            place == "United States" ~ "United States"
-        ),
-        PlaceName = factor(PlaceName, levels = c(
-            "Orleans", "Jefferson", "Plaquemines",
-            "St. Bernard", "St. Charles", "St. James",
-            "St. John the Baptist", "St. Tammany", "Metro", "United States"
-        ))
-    )
-save(allparishesRaw2021, file = "inputs/allparishesRaw2021.RData")
+# allparishesRaw2021 <- rbind(allstates_pep, allparishesRaw) %>%
+#     filter(date == "7/1/2021 population estimate") %>%
+#     mutate(
+#         PlaceName = case_when(
+#             place == "Orleans Parish" ~ "Orleans",
+#             place == "Jefferson Parish" ~ "Jefferson",
+#             place == "Plaquemines Parish" ~ "Plaquemines",
+#             place == "St. Bernard Parish" ~ "St. Bernard",
+#             place == "St. Charles Parish" ~ "St. Charles",
+#             place == "St. James Parish" ~ "St. James",
+#             place == "St. John the Baptist Parish" ~ "St. John the Baptist",
+#             place == "St. Tammany Parish" ~ "St. Tammany",
+#             place == "United States" ~ "United States"
+#         ),
+#         PlaceName = factor(PlaceName, levels = c(
+#             "Orleans", "Jefferson", "Plaquemines",
+#             "St. Bernard", "St. Charles", "St. James",
+#             "St. John the Baptist", "St. Tammany", "Metro", "United States"
+#         ))
+#     )
+# save(allparishesRaw2021, file = "inputs/allparishesRaw2021.RData")
 
-allparishesRaw2022 <- rbind(allstates_pep, allparishesRaw) %>%
-    filter(date == "7/1/2022 population estimate") %>%
-    mutate(
-        PlaceName = case_when(
-            place == "Orleans Parish" ~ "Orleans",
-            place == "Jefferson Parish" ~ "Jefferson",
-            place == "Plaquemines Parish" ~ "Plaquemines",
-            place == "St. Bernard Parish" ~ "St. Bernard",
-            place == "St. Charles Parish" ~ "St. Charles",
-            place == "St. James Parish" ~ "St. James",
-            place == "St. John the Baptist Parish" ~ "St. John the Baptist",
-            place == "St. Tammany Parish" ~ "St. Tammany",
-            place == "United States" ~ "United States"
-        ),
-        PlaceName = factor(PlaceName, levels = c(
-            "Orleans", "Jefferson", "Plaquemines",
-            "St. Bernard", "St. Charles", "St. James",
-            "St. John the Baptist", "St. Tammany", "Metro", "United States"
-        ))
-    )
-save(allparishesRaw2022, file = "inputs/allparishesRaw2022.RData")
+# allparishesRaw2022 <- rbind(allstates_pep, allparishesRaw) %>%
+#     filter(date == "7/1/2022 population estimate") %>%
+#     mutate(
+#         PlaceName = case_when(
+#             place == "Orleans Parish" ~ "Orleans",
+#             place == "Jefferson Parish" ~ "Jefferson",
+#             place == "Plaquemines Parish" ~ "Plaquemines",
+#             place == "St. Bernard Parish" ~ "St. Bernard",
+#             place == "St. Charles Parish" ~ "St. Charles",
+#             place == "St. James Parish" ~ "St. James",
+#             place == "St. John the Baptist Parish" ~ "St. John the Baptist",
+#             place == "St. Tammany Parish" ~ "St. Tammany",
+#             place == "United States" ~ "United States"
+#         ),
+#         PlaceName = factor(PlaceName, levels = c(
+#             "Orleans", "Jefferson", "Plaquemines",
+#             "St. Bernard", "St. Charles", "St. James",
+#             "St. John the Baptist", "St. Tammany", "Metro", "United States"
+#         ))
+#     )
+# save(allparishesRaw2022, file = "inputs/allparishesRaw2022.RData")
 
 allparishesRaw2023 <- rbind(allstates_pep, allparishesRaw) %>%
     filter(date == "7/1/2023 population estimate") %>%
