@@ -51,7 +51,7 @@ library(scales)
 library(extrafont)
 # Load helper functions to control CSS styles. See below for examples of how to call the functions.
 library(here)
-source(here("css_helper.R"))
+source(here("scripts/master_script.R"))
 knitr::opts_chunk$set(fig.width = 5, fig.height = 5, warning = FALSE) # use fig.width and fig.height to globally set figure sizes.
 
 options(knitr.table.format = "markdown") # Specify that kable will create md-formatted tables.
