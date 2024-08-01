@@ -16,14 +16,12 @@ downloader.get_agesex_pep()
 downloader.get_charagegroups_pep()
 """
 
-# TODO: Make file path accurate and not the services folder
 
 class GetPepData:
 
     def __init__(self):
         self.year = str(datetime.today().year - 1)
-        self.filepath = "services"
-        # filepath = os.join.path("inputs", "PEP_data")
+        self.filepath = os.join.path("inputs", "PEP_data")
         os.makedirs(self.filepath, exist_ok=True)
 
     def get_data(self, url, filename):
