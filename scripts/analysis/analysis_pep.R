@@ -28,7 +28,7 @@ AAWhiteHispan <- allparishesRaw2023 %>%
 
 
 write.csv(AAWhiteHispan, "outputs/spreadsheets/AAWhiteHispan.csv")
-storage_write_csv(AAWhiteHispan, cont_proj, "who_lives/2024/outputs/AAWhiteHispan.csv")
+storage_write_csv(paste0(AAWhiteHispan, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/AAWhiteHispan.csv"))
 
 
 
@@ -39,6 +39,7 @@ storage_write_csv(AAWhiteHispan, cont_proj, "who_lives/2024/outputs/AAWhiteHispa
 
 # HT : I just switched these around so it would make Metro last... The dataframe is not ordered by the levels of placename factor
 # that's the order that the 2000 numbers are going in.
+# TODO: Does allparishesRaw2023 change every year
 ParishDemo2 <- allparishesRaw2023 %>%
   filter(PlaceName %in% c(
     "Orleans", "Jefferson", "Plaquemines", "St. Bernard", "St. Charles",
@@ -95,7 +96,7 @@ orleansdemo_csv <- ParishDemo %>%
   select(PlaceName, Total:Hispanic) %>%
   pivot_longer(cols = -PlaceName, names_to = "race", values_to = "est2023")
 write.csv(orleansdemo_csv, "outputs/spreadsheets/orleansdemo.csv")
-storage_write_csv(orleansdemo_csv, cont_proj, "who_lives/2024/outputs/orleansdemo.csv")
+storage_write_csv(paste0(orleansdemo_csv, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/orleansdemo.csv"))
 
 parishdemo_csv <- ParishDemo %>%
   select(-c(Total:Hispanic)) %>%
@@ -118,7 +119,7 @@ parishdemo_csv <- ParishDemo %>%
   pivot_wider(names_from = c(PlaceName, year), values_from = val) %>%
   arrange(race)
 write.csv(parishdemo_csv, "outputs/spreadsheets/ParishDemo.csv")
-storage_write_csv(parishdemo_csv, cont_proj, "who_lives/2024/outputs/ParishDemo.csv")
+storage_write_csv(paste0(parishdemo_csv, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/ParishDemo.csv"))
 
 
 
@@ -135,7 +136,7 @@ AAhistorical <- blackpopestRaw %>%
   bind_cols(data.frame(year = as.factor(c(2000:2023))), .)
 
 write.csv(AAhistorical, "outputs/spreadsheets/AAHistorical.csv")
-storage_write_csv(AAhistorical, cont_proj, "who_lives/2024/outputs/AAHistorical.csv")
+storage_write_csv(paste0(AAhistorical, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/AAHistorical.csv"))
 
 ####### AA historical part 2
 BlackPopyears <- allparishesRaw2023 %>%
@@ -151,7 +152,7 @@ BlackpopM <- blackpopestRaw %>%
   select(year, POP)
 
 write.csv(BlackpopM, "outputs/spreadsheets/BlackpopM.csv")
-storage_write_csv(BlackpopM, cont_proj, "who_lives/2024/outputs/BlackpopM.csv")
+storage_write_csv(paste0(BlackpopM, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/BlackpopM.csv"))
 
 # Table 4 Hispanic population change by population
 
@@ -189,7 +190,7 @@ HispanicPopyears <- HispanicPopyears %>%
   select(PlaceName, date, population) %>%
   pivot_wider(id_cols = date, names_from = PlaceName, values_from = population)
 write.csv(HispanicPopyears, "outputs/spreadsheets/HispanicPopyears.csv")
-storage_write_csv(HispanicPopyears, cont_proj, "who_lives/2024/outputs/HispanicPopyears.csv")
+storage_write_csv(paste0(HispanicPopyears, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/HispanicPopyears.csv"))
 
 load("inputs/hisppopestRaw.RData")
 HISPpopM <- hisppopestRaw %>%
@@ -213,7 +214,7 @@ HISPpopM_CSV <- HISPpopM %>%
   select(year, Orleans, Jefferson, Plaquemines, `St. Bernard`, `St. Charles`, `St. James`, `St. John the Baptist`, `St. Tammany`) %>%
   arrange(year)
 write.csv(HISPpopM_CSV, "outputs/spreadsheets/HISPpopM.csv")
-storage_write_csv(HISPpopM_CSV, cont_proj, "who_lives/2024/outputs/HISPpopM_CSV.csv")
+storage_write_csv(paste0(HISPpopM_CSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/HISPpopM_CSV.csv"))
 
 # For excel
 # HISPpopSheet1 <- HISPpopM %>%
@@ -279,7 +280,7 @@ Agepop_csv <- Agepop %>%
     `est00_St. Tammany`, `est22_St. Tammany`
   )
 write.csv(Agepop_csv, "outputs/spreadsheets/Agepop.csv")
-storage_write_csv(Agepop_csv, cont_proj, "who_lives/2024/outputs/Agepop.csv")
+storage_write_csv(paste0(Agepop_csv, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/Agepop.csv"))
 
 
 # Table 6 Under 18 population
@@ -322,7 +323,7 @@ popunder18CSV <- popunder18 %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value") %>%
   select(`Orleans-est2000`, `Orleans-under18`, `Jefferson-est2000`, `Jefferson-under18`, `St. Tammany-est2000`, `St. Tammany-under18`, `Metro-est2000`, `Metro-under18`)
 write.csv(popunder18CSV, "outputs/spreadsheets/under18.csv")
-storage_write_csv(popunder18CSV, cont_proj, "who_lives/2024/outputs/under18.csv")
+storage_write_csv(paste0(popunder18CSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/under18.csv"))
 
 
 ###########################
@@ -506,7 +507,7 @@ medhh.race_CSV <- medhh.race %>%
   pivot_wider(names_from = place.fac, values_from = val) %>%
   rbind(medhh.totals_CSV)
 write.csv(medhh.race_CSV, "outputs/spreadsheets/medhhrace.csv")
-storage_write_csv(medhh.race_CSV, cont_proj, "who_lives/2024/outputs/medhhrace.csv")
+storage_write_csv(paste0(medhh.race_CSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/medhhrace.csv"))
 
 medhh.hist_stattest.EST <- medhhRaw_exp %>%
   filter(place == "071") %>%
@@ -578,7 +579,7 @@ medhh.hist_csv <- medhh.hist %>%
   filter(Year != 2016) %>%
   pivot_wider(names_from = Year, values_from = val)
 write.csv(medhh.hist_csv, "outputs/spreadsheets/medhhhist.csv")
-storage_write_csv(medhh.hist_csv, cont_proj, "who_lives/2024/outputs/medhhhist.csv")
+storage_write_csv(paste0(medhh.hist_csv, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/medhhhist.csv"))
 
 ### Educational attainment ###
 ###
@@ -739,7 +740,7 @@ bach.race_CSV <- bach.race %>%
   pivot_wider(names_from = place.fac, values_from = val) %>%
   rbind(bach.totals_CSV)
 write.csv(bach.race_CSV, "outputs/spreadsheets/bachrace.csv")
-storage_write_csv(bach.race_CSV, cont_proj, "who_lives/2024/outputs/bachrace.csv")
+storage_write_csv(paste0(bach.race_CSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/bachrace.csv"))
 
 
 # Historical Educational Attainment Line Chart
@@ -894,7 +895,7 @@ EduAtt.hist_csv <- EduAtt.hist %>%
   filter(year != 2016) %>%
   pivot_wider(names_from = year, values_from = val)
 write.csv(EduAtt.hist_csv, "outputs/spreadsheets/EduAtthist.csv")
-storage_write_csv(EduAtt.hist_csv, cont_proj, "who_lives/2024/outputs/EduAtthist.csv")
+storage_write_csv(paste0(EduAtt.hist_csv, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/EduAtthist.csv"))
 
 ### stat test ###
 
@@ -1099,7 +1100,7 @@ pov.race_CSV <- pov.race %>%
   pivot_wider(names_from = place.fac, values_from = val) %>%
   rbind(pov.totals_CSV)
 write.csv(pov.race_CSV, "outputs/spreadsheets/povrace.csv")
-storage_write_csv(pov.race_CSV, cont_proj, "who_lives/2024/outputs/povrace.csv")
+storage_write_csv(paste0(pov.race_CSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/povrace.csv"))
 
 
 totalPov <- read_csv("inputs/hist_pov.csv")
@@ -1258,7 +1259,7 @@ totalpov.hist_csv <- totalPov.hist %>%
   filter(year != 2016) %>%
   pivot_wider(names_from = year, values_from = val)
 write.csv(totalpov.hist_csv, "outputs/spreadsheets/totalpovhist.csv")
-storage_write_csv(totalpov.hist_csv, cont_proj, "who_lives/2024/outputs/totalpovhist.csv")
+storage_write_csv(paste0(totalpov.hist_csv, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/totalpovhist.csv"))
 
 
 ### Child poverty ###
@@ -1450,7 +1451,7 @@ childpov.race_CSV <- childpov.race %>%
   pivot_wider(names_from = place.fac, values_from = val) %>%
   rbind(childpov.totals_CSV)
 write.csv(childpov.race_CSV, "outputs/spreadsheets/childpovrace.csv")
-storage_write_csv(childpov.race_CSV, cont_proj, "who_lives/2024/outputs/childpovrace")
+storage_write_csv(paste0(childpov.race_CSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/childpovrace"))
 
 
 ### Historical child pov line chart ###
@@ -1525,7 +1526,7 @@ childpov.hist_csv <- childPov.hist %>%
   filter(Year != 2016) %>%
   pivot_wider(names_from = Year, values_from = val)
 write.csv(childpov.hist_csv, "outputs/spreadsheets/childpovhist.csv")
-storage_write_csv(childpov.hist_csv, cont_proj, "who_lives/2024/outputs/childpovhist.csv")
+storage_write_csv(paste0(childpov.hist_csv, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/childpovhist.csv"))
 
 
 # Homeownership
@@ -1601,7 +1602,7 @@ ho.hist_csv <- homeownership.hist %>%
   filter(Year != 2016) %>%
   pivot_wider(names_from = Year, values_from = val)
 write.csv(ho.hist_csv, "outputs/spreadsheets/hohist.csv")
-storage_write_csv(ho.hist_csv, cont_proj, "who_lives/2024/outputs/hohist.csv")
+storage_write_csv(paste0(ho.hist_csv, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/hohist.csv"))
 
 
 
@@ -1712,7 +1713,7 @@ ho.race_CSV <- ho.race %>%
   pivot_wider(names_from = place.fac, values_from = val) %>%
   rbind(ho.totals_CSV)
 write.csv(ho.race_CSV, "outputs/spreadsheets/horace.csv")
-storage_write_csv(ho.race_CSV, cont_proj, "who_lives/2024/outputs/horace.csv")
+storage_write_csv(paste0(ho.race_CSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/horace.csv"))
 
 ###
 
