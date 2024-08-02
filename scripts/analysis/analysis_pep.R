@@ -16,10 +16,10 @@ orderDemo <- c(
 # allparishesRaw <- load("inputs/allparishesRaw.RData")
 
 # Table 1
-load(paste0("inputs/allparishesRaw",YEAR_PEP,".RData"))
+load(paste0("inputs/allparishesRaw", YEAR_PEP, ".RData"))
 AAWhiteHispan <- paste0("allparishesRaw", YEAR_PEP) %>%
   filter(place == "Orleans Parish") %>%
-  filter(date == paste0()"7/1/",YEAR_PEP," population estimate")) %>%
+  filter(date == paste0("7/1/", YEAR_PEP, " population estimate")) %>%
   filter(age == "Total" & sex == "Total" & (raceSimple == "Black" | raceSimple == "White" | hisp == "Hispanic" | raceSimple == "Asian")) %>%
   mutate(race.fac = factor(.$raceSimple, levels = c("Black", "White", "Hispanic", "Asian"))) %>%
   arrange(race.fac) %>%
@@ -241,7 +241,7 @@ Agepop <- paste0("allparishesRaw", YEAR_PEP) %>%
     age == "70 to 74" | age == "75 to 79" | age == "80 to 84" | age == "85 plus") %>%
   filter(raceSimple == "Total") %>%
   filter(sex == "Total") %>%
-  filter(date == paste0("7/1/",YEAR_PEP," population estimate")) %>%
+  filter(date == paste0("7/1/", YEAR_PEP, " population estimate")) %>%
   filter(PlaceName %in% c(
     "Orleans", "Jefferson", "Plaquemines", "St. Bernard", "St. Charles",
     "St. James", "St. John the Baptist", "St. Tammany"
@@ -289,7 +289,7 @@ under18pars <- paste0("allparishesRaw", YEAR_PEP) %>%
   filter(age == "18 years and over" | age == "Total") %>%
   filter(raceSimple == "Total") %>%
   filter(sex == "Total") %>%
-  filter(date == paste0("7/1/",YEAR_PEP," population estimate")) %>%
+  filter(date == paste0("7/1/", YEAR_PEP, " population estimate")) %>%
   filter(PlaceName %in% c(
     "Orleans", "Jefferson", "Plaquemines", "St. Bernard", "St. Charles",
     "St. James", "St. John the Baptist", "St. Tammany"
