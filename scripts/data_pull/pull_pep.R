@@ -470,6 +470,7 @@ hisppopestRaw <- getCensus(
     filter(HISP == 2) %>%
     filter(DATE_DESC == "4/1/2010 Census population" | year == 2006 | year == 2007 | year == 2008 | year == 2009 | year == 2011 | year == 2012 | year == 2013 | year == 2014 | year == 2015 | year == 2016 | year == 2017 | year == 2018 | year == 2019)
 
+# TODO: Ask Haleigh about this portion and if it should be deleted and replaced with hisppopestcurrent
 hisppopest20 <- allparishesRaw2020 %>%
     filter(race == "Hispanic" & age == "Total" & sex == "Total") %>%
     mutate(place = PlaceName) %>%
