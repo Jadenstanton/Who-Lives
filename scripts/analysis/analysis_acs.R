@@ -83,7 +83,7 @@ hispanCSV <- hispan %>%
   pivot_wider(id_cols = c("Hispanic origin"), names_from = "place", values_from = "Value")
 
 write.csv(hispanCSV, "outputs/spreadsheets/hispan.csv")
-storage_write_csv(paste0(hispanCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/hispan.csv"))
+storage_write_csv(hispanCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/hispan.csv"))
 
 # Households with own children under 18
 load("inputs/hwcRaw.RData")
@@ -111,7 +111,7 @@ hwcCSV <- hwc %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 
 write.csv(hwcCSV, "outputs/spreadsheets/hwc.csv")
-storage_write_csv(paste0(hwcCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/hwc.csv"))
+storage_write_csv(hwcCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/hwc.csv"))
 
 # One-person households
 load("inputs/singRaw.RData")
@@ -134,7 +134,7 @@ singCSV <- sing %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(singCSV, "outputs/spreadsheets/sing.csv")
-storage_write_csv(paste0(singCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/sing.csv"))
+storage_write_csv(singCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/sing.csv"))
 
 # Less than a high school degree, adults 25 and older
 load("inputs/hsRaw.RData")
@@ -159,7 +159,7 @@ hsCSV <- hs %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(hsCSV, "outputs/spreadsheets/hs.csv")
-storage_write_csv(paste0(hsCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/hs.csv"))
+storage_write_csv(hsCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/hs.csv"))
 
 # Bachelor's degree or higher, adults 25 and older
 load("inputs/bachRaw.RData")
@@ -184,7 +184,7 @@ bachCSV <- bach %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(bachCSV, "outputs/spreadsheets/bach.csv")
-storage_write_csv(paste0(bachCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/bach.csv"))
+storage_write_csv(bachCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/bach.csv"))
 
 # Median household income, 201* inflation-adjusted dollars
 #*************** NEED MOE FOR 2000 DATA**********************
@@ -207,7 +207,7 @@ medhhCSV <- medhh %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(medhhCSV, "outputs/spreadsheets/medhh.csv")
-storage_write_csv(paste0(medhhCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/medhh.csv"))
+storage_write_csv(medhhCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/medhh.csv"))
 
 # Internet access
 load("inputs/intaRaw.RData")
@@ -243,7 +243,7 @@ intaCSV <- inta %>%
   pivot_longer(-c("place"), names_to = "inta", values_to = "Value") %>%
   pivot_wider(id_cols = c("inta"), names_from = "place", values_from = "Value")
 write.csv(intaCSV, "outputs/spreadsheets/inta.csv")
-storage_write_csv(paste0(intaCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/inta.csv"))
+storage_write_csv(intaCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/inta.csv"))
 
 # Poverty rate, population for whom poverty has been determined
 load("inputs/povRaw.RData")
@@ -267,7 +267,7 @@ povCSV <- pov %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(povCSV, "outputs/spreadsheets/pov.csv")
-storage_write_csv(paste0(povCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/pov.csv"))
+storage_write_csv(povCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/pov.csv"))
 
 # Children in poverty, population for whom poverty has been determined
 load("inputs/childpovRaw.RData")
@@ -295,7 +295,7 @@ childpovCSV <- childpov %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(childpovCSV, "outputs/spreadsheets/childpov.csv")
-storage_write_csv(paste0(childpovCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/childpov.csv"))
+storage_write_csv(childpovCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/childpov.csv"))
 
 # Households without access to a vehicle
 load("inputs/vehRaw.RData")
@@ -318,7 +318,7 @@ vehCSV <- veh %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(vehCSV, "outputs/spreadsheets/veh.csv")
-storage_write_csv(paste0(vehCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/veh.csv"))
+storage_write_csv(vehCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/veh.csv"))
 
 # Population not U.S. citizens at birth
 load("inputs/forborRaw.RData")
@@ -343,7 +343,7 @@ forborCSV <- forbor %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(forborCSV, "outputs/spreadsheets/forbor.csv")
-storage_write_csv(paste0(forborCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/forbor.csv"))
+storage_write_csv(forborCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/forbor.csv"))
 
 # Population who moved in the past year
 load("inputs/mobRaw.RData")
@@ -392,7 +392,7 @@ mobCSV <- mob %>%
   arrange(mobfinal) %>%
   pivot_wider(id_cols = c("mobfinal"), names_from = "header", values_from = "Value")
 write.csv(mobCSV, "outputs/spreadsheets/mob.csv")
-storage_write_csv(paste0(mobCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/mob.csv"))
+storage_write_csv(mobCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/mob.csv"))
 
 ## mobility sig testing for written analysis
 
@@ -431,7 +431,7 @@ hoCSV <- ho %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(hoCSV, "outputs/spreadsheets/ho.csv")
-storage_write_csv(paste0(hoCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/ho.csv"))
+storage_write_csv(hoCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/ho.csv"))
 
 
 # Homeowners without a mortgage
@@ -455,7 +455,7 @@ honomoCSV <- honomo %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(honomoCSV, "outputs/spreadsheets/honomo.csv")
-storage_write_csv(paste0(honomoCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/honomo.csv"))
+storage_write_csv(honomoCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/honomo.csv"))
 
 # Renters with severe housing cost burdens
 load("inputs/rentburRaw.RData")
@@ -480,7 +480,7 @@ rentburCSV <- rentbur %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(rentburCSV, "outputs/spreadsheets/rentbur.csv")
-storage_write_csv(paste0(rentburCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/rentbur.csv"))
+storage_write_csv(rentburCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/rentbur.csv"))
 
 # Homeowners with severe housing cost burdens
 load("inputs/hoburRaw.RData")
@@ -506,7 +506,7 @@ hoburCSV <- hobur %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(hoburCSV, "outputs/spreadsheets/hobur.csv")
-storage_write_csv(paste0(hoburCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/hobur.csv"))
+storage_write_csv(hoburCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/hobur.csv"))
 
 
 # Median gross rent, 201* inflation-adjusted dollars
@@ -533,7 +533,7 @@ medrentCSV <- medrent %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
 write.csv(medrentCSV, "outputs/spreadsheets/medrent.csv")
-storage_write_csv(paste0(medrentCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/medrent.csv"))
+storage_write_csv(medrentCSV, cont_proj, paste0("who_lives/", CURRENT_YEAR, "/outputs/medrent.csv"))
 
 
 # Year structure built, 201* housing units
@@ -563,7 +563,7 @@ yrbuiltCSV <- yrbuilt %>%
   pivot_longer(-c("place"), names_to = "yrbuilt", values_to = "Value") %>%
   pivot_wider(id_cols = c("yrbuilt"), names_from = "place", values_from = "Value")
 write.csv(yrbuiltCSV, "outputs/spreadsheets/yrbuilt.csv")
-storage_write_csv(paste0(yrbuiltCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/yrbuilt.csv"))
+storage_write_csv(yrbuiltCSV, cont_proj, paste("who_lives/", CURRENT_YEAR, "/outputs/yrbuilt.csv"))
 
 
 
@@ -636,4 +636,4 @@ commuteCSV <- commute %>%
   pivot_wider(id_cols = c("commutefinal"), names_from = "header", values_from = "Value") %>%
   select(commutefinal, `Orleans-2000`, `Orleans-2022`, `Jefferson-2000`, `Jefferson-2022`, `New Orleans Metro Area-2000`, `New Orleans Metro Area-2022`, `United States-2000`, `United States-2022`)
 write.csv(commuteCSV, "outputs/spreadsheets/commute.csv")
-storage_write_csv(paste0(commuteCSV, cont_proj, "who_lives/", as.numeric(format(Sys.Date(), "%Y")), "/outputs/commute.csv"))
+storage_write_csv(commuteCSV, cont_proj, paste("who_lives/", CURRENT_YEAR, "/outputs/commute.csv"))
