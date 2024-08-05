@@ -6,14 +6,13 @@ cpi99 <- 1.71
 
 # the current/most recent year - the year the data you're updating represents
 # TODO: Change all occurences of 'year' to 'YEAR'
-# TODO: Fix date conversion from strtoi to as.numeric
 # Change all global variables to be in all caps
 
-YEAR <- 2022
-YEAR_PEP <- strtoi(c(format(Sys.Date(), "%Y"))) - 1
+YEAR <- as.numeric(format(Sys.Date(), "%Y")) - 2
+YEAR_PEP <- as.numeric(format(Sys.Date(), "%Y")) - 1
 
-YEAR.char <- c("2022")
-YEAR_PEP.char <- toString(strtoi(c(format(Sys.Date(), "%Y"))) - 1)
+YEAR.char <- toString(as.numeric(format(Sys.Date(), "%Y")) - 2)
+YEAR_PEP.char <- toString(as.numeric(format(Sys.Date(), "%Y")) - 1)
 
 CURRENT_YEAR <- as.numeric(format(Sys.Date(), "%Y"))
 
