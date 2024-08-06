@@ -97,7 +97,7 @@ charagegroupsVars <- censusapi::listCensusMetadata("pep/charagegroups", 2019, ty
 
 ### post-2019 PEP data not available by API. pulling it in directly.
 
-allparishesRaw <- read_csv(paste0("inputs/PEP_data/PEP", as.numeric(format(Sys.Date(), "%Y")) - 1, "charagegroups.csv"))
+allparishesRaw <- read_csv(paste0("inputs/PEP_data/PEP", YEAR_PEP, "charagegroups.csv"))
 allparishesRaw <- allparishesRaw %>%
     filter(COUNTY %in% c("071", "051", "075", "087", "089", "093", "095", "103")) %>% # making a total column for each sex.  revise unneeded ones later
     mutate(
@@ -171,7 +171,7 @@ allparishesRaw <- allparishesRaw %>%
     ) %>%
     select(place, date, hisp, sex, race, age, population, raceSimple)
 
-popunder18co <- read_csv(paste0("inputs/PEP_data/PEP", as.numeric(format(Sys.Date(), "%Y")) - 1, "_agesex.csv")) # for popunder18 measure
+popunder18co <- read_csv(paste0("inputs/PEP_data/PEP", YEAR_PEP, "_agesex.csv")) # for popunder18 measure
 popunder18co <- popunder18co %>%
     filter(COUNTY %in% c("071", "051", "075", "087", "089", "093", "095", "103")) %>%
     select(CTYNAME, YEAR, AGE18PLUS_TOT) %>%
@@ -190,7 +190,7 @@ allparishesRaw <- allparishesRaw %>%
     select(place, date, hisp, sex, race, age, population, raceSimple)
 # pulling in entire US PEP data, then binding to allparishesRaw.  Doing this with the exact same code as from above.
 
-allstates_pep <- read_csv(paste0("inputs/PEP_data/PEP", as.numeric(format(Sys.Date(), "%Y")) - 1, "charagegroups_allstates.csv"))
+allstates_pep <- read_csv(paste0("inputs/PEP_data/PEP", YEAR_PEP, "charagegroups_allstates.csv"))
 
 allstates_pep <- allstates_pep %>%
     mutate(
@@ -264,7 +264,7 @@ allstates_pep <- allstates_pep %>%
     ) %>%
     select(place, date, hisp, sex, race, age, population, raceSimple)
 
-popunder18US <- read_csv(paste0("inputs/PEP_data/PEP", as.numeric(format(Sys.Date(), "%Y")) - 1, "_agesex_allstates.csv")) # for popunder18 measure
+popunder18US <- read_csv(paste0("inputs/PEP_data/PEP", YEAR_PEP, "_agesex_allstates.csv")) # for popunder18 measure
 popunder18US <- popunder18US %>%
     select(CTYNAME, YEAR, AGE18PLUS_TOT) %>%
     mutate(
