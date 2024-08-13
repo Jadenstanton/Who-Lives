@@ -105,7 +105,7 @@ hwcCSV <- hwc %>%
   pivot_longer(-c("place"), names_to = "hwc", values_to = "Value") %>%
   mutate(
     name = paste(place, hwc, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -129,7 +129,7 @@ singCSV <- sing %>%
   pivot_longer(-c("place"), names_to = "sing", values_to = "Value") %>%
   mutate(
     name = paste(place, sing, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -154,7 +154,7 @@ hsCSV <- hs %>%
   pivot_longer(-c("place"), names_to = "hs", values_to = "Value") %>%
   mutate(
     name = paste(place, hs, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -179,7 +179,7 @@ bachCSV <- bach %>%
   pivot_longer(-c("place"), names_to = "bach", values_to = "Value") %>%
   mutate(
     name = paste(place, bach, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -202,7 +202,7 @@ medhhCSV <- medhh %>%
   pivot_longer(-c("place"), names_to = "medhh", values_to = "Value") %>%
   mutate(
     name = paste(place, medhh, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -262,7 +262,7 @@ povCSV <- pov %>%
   pivot_longer(-c("place"), names_to = "pov", values_to = "Value") %>%
   mutate(
     name = paste(place, pov, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -290,7 +290,7 @@ childpovCSV <- childpov %>%
   pivot_longer(-c("place"), names_to = "childpov", values_to = "Value") %>%
   mutate(
     name = paste(place, childpov, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -313,7 +313,7 @@ vehCSV <- veh %>%
   pivot_longer(-c("place"), names_to = "veh", values_to = "Value") %>%
   mutate(
     name = paste(place, veh, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -338,7 +338,7 @@ forborCSV <- forbor %>%
   pivot_longer(-c("place"), names_to = "forbor", values_to = "Value") %>%
   mutate(
     name = paste(place, forbor, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -380,6 +380,7 @@ mobCSV <- mob %>%
   select(place, (contains("sf2004") & !contains("MOE")), (contains("pct"))) %>%
   pivot_longer(-c("place"), names_to = "mob", values_to = "Value") %>%
   mutate(
+    # TODO: Ask Haleigh about the hardcoded 2022
     year = ifelse(grepl("2004", mob), "2004", "2022"),
     header = paste(place, year, sep = "-"),
     mobfinal = ifelse(grepl("abroad", mob), "abroad", mob),
@@ -426,7 +427,7 @@ hoCSV <- ho %>%
   pivot_longer(-c("place"), names_to = "ho", values_to = "Value") %>%
   mutate(
     name = paste(place, ho, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -450,7 +451,7 @@ honomoCSV <- honomo %>%
   pivot_longer(-c("place"), names_to = "honomo", values_to = "Value") %>%
   mutate(
     name = paste(place, honomo, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -475,7 +476,7 @@ rentburCSV <- rentbur %>%
   pivot_longer(-c("place"), names_to = "rentbur", values_to = "Value") %>%
   mutate(
     name = paste(place, rentbur, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -501,7 +502,7 @@ hoburCSV <- hobur %>%
   pivot_longer(-c("place"), names_to = "hobur", values_to = "Value") %>%
   mutate(
     name = paste(place, hobur, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")
@@ -528,7 +529,7 @@ medrentCSV <- medrent %>%
   pivot_longer(-c("place"), names_to = "medrent", values_to = "Value") %>%
   mutate(
     name = paste(place, medrent, sep = "-"),
-    year = YEAR
+    year = YEAR_ACS
   ) %>%
   select(-place) %>%
   pivot_wider(id_cols = c("year"), names_from = "name", values_from = "Value")

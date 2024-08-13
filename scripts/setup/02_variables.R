@@ -8,10 +8,10 @@ cpi99 <- 1.71
 # TODO: Change all occurences of 'year' to 'YEAR'
 # Change all global variables to be in all caps
 
-YEAR <- as.numeric(format(Sys.Date(), "%Y")) - 2
+YEAR_ACS <- as.numeric(format(Sys.Date(), "%Y")) - 2
 YEAR_PEP <- as.numeric(format(Sys.Date(), "%Y")) - 1
 
-YEAR.char <- toString(as.numeric(format(Sys.Date(), "%Y")) - 2)
+YEAR_ACS.char <- toString(as.numeric(format(Sys.Date(), "%Y")) - 2)
 YEAR_PEP.char <- toString(as.numeric(format(Sys.Date(), "%Y")) - 1)
 
 CURRENT_YEAR <- as.numeric(format(Sys.Date(), "%Y"))

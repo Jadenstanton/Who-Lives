@@ -11,7 +11,7 @@ readRenviron(".env.test")
 CENSUS_KEY <- Sys.getenv("TEST_CENSUS_KEY")
 
 
-wholivesdatapull <- function(variables, names = variables, year = YEAR, censusname = "acs/acs1") {
+wholivesdatapull <- function(variables, names = variables, year = YEAR_ACS, censusname = "acs/acs1") {
     censuskey <- CENSUS_KEY
     parishes <- getCensus(name = censusname, vintage = year, key = censuskey, vars = variables, region = "county:071,051,103,093", regionin = "state:22") ## pull parish data
     parishes$state <- NULL # state column pulled automatically & needs to be deleted
