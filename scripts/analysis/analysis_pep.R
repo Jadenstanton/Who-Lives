@@ -126,6 +126,7 @@ storage_write_csv(parishdemo_csv, cont_proj, paste0("who_lives/", CURRENT_YEAR, 
 # Pulling population estimates for 2010-current
 load("inputs/blackpopestRaw.RData")
 AAhistorical <- blackpopestRaw %>%
+  # TODO : Ask Haleigh if this is referencing the year variable or selecting a column or something
   select(year, POP) %>%
   arrange(year) %>%
   # .[-(2:3),] %>% #Remove 2010 estimates we don't need. We use Census Population for 2010 so we can delete 2010 Population estimate
@@ -393,6 +394,7 @@ medhh.hist <- medhhinc_adjusted21 %>%
   select(-value) %>%
   rename(val = inc_adj21) %>%
   mutate(
+    # TODO: Ask Haleigh if this is referencing the global year variable
     Year = as.numeric(Year),
     var = ifelse(var == "Overall", "All", var),
     var = ifelse(grepl("Bla", var), "Black", var),
