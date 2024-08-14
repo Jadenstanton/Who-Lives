@@ -142,6 +142,7 @@ chart.inta.allparishes <- intaforGraphic %>%
         plot.title = element_text(hjust = .5)
     ) +
     labs(
+        # TODO: Ask Haleigh about year here
         title = "Household internet access, 2022",
         x = "",
         y = ""

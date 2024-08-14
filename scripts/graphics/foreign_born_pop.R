@@ -77,6 +77,7 @@ chart.mob.allparishes <- mobforGraphic %>%
         family = "Asap"
     ) +
     scale_y_continuous(labels = percent_format(accuracy = 1), expand = c(0, 0), limits = c(0, .18)) +
+    # TODO: Ask Haleigh about the label for date (change soon and transfer changes to Databricks)
     scale_x_discrete(labels = c("2004", "2022")) +
     themeDC_horizontal() +
     theme(
